@@ -1,1 +1,1 @@
-web: gunicorn Generator:app
+web:  python manage.py runserver
