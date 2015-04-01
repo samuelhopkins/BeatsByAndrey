@@ -1,1 +1,0 @@
-web:  python Generator/manage.py runserver
