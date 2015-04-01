@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+{% load staticfiles %}
+<script src="{% static "Generator/jquery.js" %}"></script>
+<script src="{% static "Generator/Generator-ajax.js" %}"></script>
+<script src="{% static "Generator/undo.js" %}"></script>
+<link rel="stylesheet" type="text/css" href="{% static "Generator/css/bootstrap.css" %}">
+<link rel="stylesheet" type="text/css" href="{% static "Generator/css/index.css" %}">
+<meta content="text/html; charset=utf-16">
+</head>
+
+<div id="title">
+<h1>The Beats by (An)Drey Project</h1>
+</div>
+<div id="info" class="info">
+	<p class="info">
+	<h4><a id="about-click" href="#">What is this?</a></h4>
+</p>
+<div id="about">
+	<p> 
+		The beats by (An)drey Markov project is an exploration into the randomness of music and lyrics. The back end consists of a multi-threaded web scraper that collects data from Genius.com and utilizes a markov chain to generate lyrics inspired by your favorite artists.
+	</p>
+</div>
+<section>
+<div id="form" class="form">
+<form  method="post" id="post-form">
+	<table>
+		<tr>
+	<td><label for="artist"><h5>Artist Name</h5></label></td>
+	<td><input id="artist_name" class="style-1" type="text" name="artist_name"></td>
+</tr>
+<tr>
+	<td><label for="strength"> <h5>Randomness </h5></label></td>
+	<td><select id="strength" name="strength">
+		<option value="1">1</option>
+		<option value="2">2</option>
+		<option value="3">3</option>
+		<option value="4">4</option>
+		<option value="5">5</option>
+	</select>
+	</td>
+</tr>
+	</table>
+	<button type="button" class="btn btn-danger" value="Generate" id="form-button">Generate</button>
+</form>
+</div>
+</div>
+
+<div id="content">
+	<p class="info">
+		<button type="button" id="back" class="btn btn-danger">Try Again</button>
+	</p>
+	<p id="loading-block"></p>
+<div id="song">
+	<p id="block-1"></p>
+	<br>
+	<p id="chorus-block"></p>
+	<p id="block-2"> </p>
+	<br>
+	<p id="block-3"></p>
+	<br>
+	<p id="chorus"></p>
+	<br>
+	<p id="block-4"></p>
+	<button type="button" class="btn btn-danger" value="incorrect" id="undo-button">These Lyrics Don't Sound Right
+	</button>
+</div>
+	<img id="loader" src="{% static "Generator/gifs/loader.gif" %}">
+</div>
+</section>
+</html>

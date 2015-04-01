@@ -1,0 +1,19 @@
+<script src="{% static "/js/jquery.min.js" %}"></script>
+<script src="{% static "/js/Generator-ajax.js" %}"></script>
+
+{% if artist_name %}
+	<p>
+		{{ artist_name }}
+		{{ strength }}
+	</p>
+{% endif %}
+
+{% if lyrics %}
+<p>
+	{{ lyrics }}
+</p>
+{% endif %}
+
+<p>
+	{{model}}
+</p>
