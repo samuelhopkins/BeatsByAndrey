@@ -85,7 +85,7 @@ USE_L10N = True
 USE_TZ = True
 
 # Allow all host headers
-ALLOWED_HOSTS = ['serene-dawn-4963.herokuapp.com']
+ALLOWED_HOSTS = ['beatsbydrey.herokuapp.com']
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
