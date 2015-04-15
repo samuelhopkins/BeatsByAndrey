@@ -1,1 +1,1 @@
-web: gunicorn MarkovLyrics.wsgi
+web: gunicorn MarkovLyrics.wsgi -t 240
