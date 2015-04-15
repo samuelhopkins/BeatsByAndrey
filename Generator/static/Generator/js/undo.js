@@ -4,7 +4,7 @@ $('#undo-button').click(function(){
 	$('#loading-block').html("Our webscraper is young and disobedient at times. Please feel free to try again.");
 	var artist = $('#artist_name').val();
 	console.log(artist);
-	$.get('/Generator/undo-model/', { 'artist_name' : artist},
+	$.get("undo-model/", { 'artist_name' : artist},
 		function(data){
 			return 
 	});

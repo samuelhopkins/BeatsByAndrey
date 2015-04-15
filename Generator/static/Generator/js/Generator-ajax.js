@@ -14,7 +14,7 @@ $('#form-button').click(function() {
 	$('#loading-block').html("You may be the first person to request a song by this artist. Please be patient while we write one.");
 	$('#loader').show();
 	$('#back').prop("disabled",true);
-	$.get('/Generator/generated/', { "artist_name" : artist, "strength" : strength},
+	$.get("generated/", { "artist_name" : artist, "strength" : strength},
 		function(data){
 			var lyrics=data.substring(1, data.length-1);
 			if ((lyrics=="Invalid artist name entered.") || (lyrics=="Insufficient Data."))
