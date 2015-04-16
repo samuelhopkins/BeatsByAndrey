@@ -45,6 +45,13 @@
 	<button type="button" class="btn btn-danger" value="Generate" id="form-button">Generate</button>
 </form>
 </div>
+<div id="available">
+<ul>
+	{% for name in available_list %}
+	<li> {{ name }}</li>
+	{% endfor %}
+</ul>
+</div>
 </div>
 
 <div id="content">
