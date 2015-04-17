@@ -11,15 +11,18 @@ $('#form-button').click(function() {
 		$('#content').fadeIn(400);
 	})
 	$('#form-button').prop("disabled", true);
-	$('#loading-block').html("You may be the first person to request a song by this artist. Please be patient while we write one.");
+	$('#loading-block').html("Please be patient while we generate a song.");
 	$('#loader').show();
 	$('#back').prop("disabled",true);
 	$.get("generated/", { "artist_name" : artist, "strength" : strength},
 		function(data){
 			var lyrics=data.substring(1, data.length-1);
-			if ((lyrics=="Invalid artist name entered.") || (lyrics=="Insufficient Data."))
+			if (lyrics.length < 30)
 			{
-				$('#loading-block').html(lyrics)
+				console.log(data)
+				$('#loading-block').html("You are the first person to request a song by " + lyrics +"."  
+					+ " Please be patient while we collect lyrical data. Once the data has been collected "
+					+ lyrics +" will appear in the popular artists list upon refreshing the page.")
 
 			}
 			else
@@ -51,7 +54,6 @@ $('#back').click(function(){
 	$('#content').fadeOut(400,function(){
 		$('#info').fadeIn(400);
 	});
-
 
 });
 

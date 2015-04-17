@@ -2,13 +2,11 @@ import types, sys
 from django.shortcuts import render, render_to_response
 from django.template import RequestContext
 import json
-from rq import Queue
-from worker import conn
 from django.http import HttpResponse, HttpResponseRedirect
 from Generator.models import Artist
 from Generator.FreestyleGenerator import Generator
+from BackGround import backgroundThread
 
-q=Queue(connection=conn)
 
 def noClosures(lyrics):
 	lyrics=lyrics
@@ -20,7 +18,7 @@ def noClosures(lyrics):
 	return lyrics
 
 def index(request):
-	objects=Artist.objects.all()
+	objects=Artist.objects.order_by('created').reverse()
 	available_list=[]
 	for artist in objects:
 		if len(artist.lyric_list) > 50000:
@@ -29,36 +27,31 @@ def index(request):
 	return render_to_response('Generator/index.html',  {"available_list":available_list})
 
 def undo(request):
-	print "in undo"
 	artist_name=request.GET['artist_name'].lower()
 	print artist_name
 	model=Artist.objects.get(name=artist_name)
 	model.delete()
-	new_Gen=Generator("")
 	return HttpResponse()
 
-def create_or_recieve(name):
-	print "excepted"
-	new=Artist.objects.create(name=name)
-	new_Gen=Generator(artist_name)
-	if new_Gen.songLyricList==[]:
-		model.delete()
-	else:
-		model.lyric_list=json.dumps(new_Gen.songLyricList)
-		model.save()
+def create_thread(name):
+	thread=backgroundThread(name)
+	thread.start()
+	return
 
 def generated(request):
+		print "in generated"
 		model=0
+		threads=[]
 		context=RequestContext(request)
 		strength=request.GET['strength']
-		artist_name=request.GET['artist_name'].lower()
+		artist_name_upper=request.GET['artist_name']
+		artist_name=artist_name_upper.lower()
 		try:
 			model=Artist.objects.get(name=artist_name)
 		except Artist.DoesNotExist:
-			print "exceptional"
-			result=q.enqueue(create_or_recieve,artist_name)
-			exception=True
-			return HttpResponse(json.dumps("nooooooooooooo"))
+			create_thread(artist_name)
+			print "not exist"
+			return HttpResponse(json.dumps(artist_name_upper))
 		
 		lyrics_list=list(json.loads(model.lyric_list))
 		existing=Generator(lyrics_list)

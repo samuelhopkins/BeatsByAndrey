@@ -83,6 +83,26 @@ p.info{
 	text-align: center;
 }
 
+#available{
+	text-align: center;
+	overflow-y:scroll;
+	height: 30%;
+}
+
+ul {
+	margin-top: 10px;
+}
+
+#available>ul>li {
+	color: #da4f49;
+	list-style-type: none;
+
+}
+#available h4{
+	margin: 0 auto;
+	color: #ABA8A8;
+	text-align: center;
+}
 
 #post-form{
 	padding-left: 25%;
