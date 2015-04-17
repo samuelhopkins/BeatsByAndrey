@@ -31,6 +31,7 @@ def undo(request):
 	print artist_name
 	model=Artist.objects.get(name=artist_name)
 	model.delete()
+	new=Generator("")
 	return HttpResponse()
 
 def create_thread(name):
