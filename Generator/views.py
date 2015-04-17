@@ -20,6 +20,7 @@ def noClosures(lyrics):
 def index(request):
 	objects=Artist.objects.order_by('created').reverse()
 	available_list=[]
+	new=Generator("")
 	for artist in objects:
 		if len(artist.lyric_list) > 50000:
 			available_list.append(artist.name)
@@ -30,8 +31,8 @@ def undo(request):
 	artist_name=request.GET['artist_name'].lower()
 	print artist_name
 	model=Artist.objects.get(name=artist_name)
-	model.delete()
 	new=Generator("")
+	model.delete()
 	return HttpResponse()
 
 def create_thread(name):
@@ -40,12 +41,13 @@ def create_thread(name):
 	return
 
 def generated(request):
-		print "in generated"
 		model=0
 		threads=[]
+		new=Generator("")
 		context=RequestContext(request)
 		strength=request.GET['strength']
 		artist_name_upper=request.GET['artist_name']
+		print artist_name_upper
 		artist_name=artist_name_upper.lower()
 		try:
 			model=Artist.objects.get(name=artist_name)

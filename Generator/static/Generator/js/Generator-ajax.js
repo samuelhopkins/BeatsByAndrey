@@ -55,6 +55,7 @@ $('#back').click(function(){
 		$('#info').fadeIn(400);
 	});
 
+
 });
 
 });
