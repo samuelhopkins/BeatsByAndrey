@@ -2,10 +2,12 @@ import types, sys
 from django.shortcuts import render, render_to_response
 from django.template import RequestContext
 import json
+import os
 from django.http import HttpResponse, HttpResponseRedirect
 from Generator.models import Artist
 from Generator.FreestyleGenerator import Generator
 from BackGround import backgroundThread
+from django.core.files import File
 
 
 def noClosures(lyrics):
@@ -20,10 +22,8 @@ def noClosures(lyrics):
 def index(request):
 	objects=Artist.objects.order_by('created').reverse()
 	available_list=[]
-	new=Generator("")
 	for artist in objects:
-		if len(artist.lyric_list) > 50000:
-			available_list.append(artist.name)
+		available_list.append(artist.name)
 
 	return render_to_response('Generator/index.html',  {"available_list":available_list})
 
@@ -31,7 +31,7 @@ def undo(request):
 	artist_name=request.GET['artist_name'].lower()
 	print artist_name
 	model=Artist.objects.get(name=artist_name)
-	new=Generator("")
+	os.remove(model.lyrics_file.path)
 	model.delete()
 	return HttpResponse()
 
@@ -43,11 +43,9 @@ def create_thread(name):
 def generated(request):
 		model=0
 		threads=[]
-		new=Generator("")
 		context=RequestContext(request)
 		strength=request.GET['strength']
 		artist_name_upper=request.GET['artist_name']
-		print artist_name_upper
 		artist_name=artist_name_upper.lower()
 		try:
 			model=Artist.objects.get(name=artist_name)
@@ -55,11 +53,10 @@ def generated(request):
 			create_thread(artist_name)
 			print "not exist"
 			return HttpResponse(json.dumps(artist_name_upper))
-		
+		print model
 		lyrics_list=list(json.loads(model.lyric_list))
 		existing=Generator(lyrics_list)
 		lyrics=existing.generate(250,int(strength))
-
 		splitstyle=noClosures(lyrics.split())
 		lyrics=(" ").join(splitstyle)
 		lyrics.replace("\\","")

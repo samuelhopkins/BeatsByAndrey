@@ -19,24 +19,21 @@ def noClosures(lyric):
 			lyrics.remove(string)
 	return lyrics
 
-class Generator():
-	artist=""
-	wordDict=defaultdict(set)
-	wordList=[]
-	songLyricList=[]
-	def __init__(self, *args):
-		if len(args)==1:
-			arg=args[0]
-		if hasattr(arg,'__iter__'):
-			self.songLyricList=arg
-		else:
-			self.artist=arg
-			scraped=LyricScraper(arg)
-			lyrics=scraped.lyrics
-			self.songLyricList=lyrics
-			
 
-	
+			
+class Scraper():
+	def __init__(self,artist_name):
+		self.artist=artist_name
+		scraped=LyricScraper(self.artist)
+		lyrics=scraped.lyrics
+		self.songLyricList=lyrics
+
+class Generator():
+	def __init__(self, lyrics_list):
+		self.songLyricList=lyrics_list
+		self.wordDict=defaultdict(set)
+		self.wordList=[]
+		print "init"
 			
 
 
@@ -60,6 +57,7 @@ class Generator():
 #generate will generate a freestyle of "length" many words
 	def generate(self,length,strength):
 		self.train(strength)
+		print "trained"
 		options=len(self.wordList)
 		rand=random.randint(0,options)
 		seed=self.wordList[rand]
@@ -84,6 +82,6 @@ class Generator():
 
 
 if __name__=="__main__":
-	new=Generator("Sam")
+	new=Generator("")
 
 

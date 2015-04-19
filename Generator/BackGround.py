@@ -2,8 +2,9 @@ import threading
 import sys
 import json
 from Generator.models import Artist
-from Generator.FreestyleGenerator import Generator
+from Generator.FreestyleGenerator import Generator, Scraper
 from datetime import datetime
+from django.core.files import File
 
 class backgroundThread(threading.Thread):
 	def __init__(self,name):
@@ -12,14 +13,18 @@ class backgroundThread(threading.Thread):
 
 	def run(self):
 		print "in background thread"
-		new_Gen=Generator(self.artist_name)
-		if len(new_Gen.songLyricList)>20:
-			print len(new_Gen.songLyricList)
-			print "creating"
+		new_scraper=Scraper(self.artist_name)
+		if len(new_scraper.songLyricList)>20:
+			print len(new_scraper.songLyricList)
 			new=Artist.objects.create(name=self.artist_name)
-			new.lyric_list=json.dumps(new_Gen.songLyricList)
+			new.lyric_list=json.dumps(new_scraper.songLyricList)
 			new.created=datetime.now()
-			print "saving model"
+			# with open(self.artist_name,'w+') as f:
+			# 	myfile=File(f)
+			# 	json.dump(new_scraper.songLyricList,myfile)
+			# 	new.lyrics_file.save(self.artist_name,myfile)
+			# 	f.close()
+			# 	myfile.close()
 			new.save()
 		else:
 			return

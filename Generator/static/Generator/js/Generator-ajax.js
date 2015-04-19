@@ -3,9 +3,7 @@ $(document).ready(function() {
 	$("#about").hide()
 	$('#loader').hide();
 	$('#content').hide();
-	var request;
 $('#form-button').click(function() {
-	if (request) request.abort();
 	var artist= $('#artist_name').val();
 	var strength= $('#strength').val();
 	$('#song').hide();
@@ -16,7 +14,7 @@ $('#form-button').click(function() {
 	$('#loading-block').html("Please be patient while we generate a song.");
 	$('#loader').show();
 	$('#back').prop("disabled",true);
-	request=$.get("generated/", { "artist_name" : artist, "strength" : strength},
+	$.get("generated/", { "artist_name" : artist, "strength" : strength},
 		function(data){
 			var lyrics=data.substring(1, data.length-1);
 			if (lyrics.length < 30)
