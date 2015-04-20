@@ -13,7 +13,7 @@ class backgroundThread(threading.Thread):
 
 	def run(self):
 		print "in background thread"
-		new_scraper=Scraper(self.artist_name)
+		new_scraper=Scraper(unicode(self.artist_name.encode('utf8')))
 		if len(new_scraper.songLyricList)>20:
 			print len(new_scraper.songLyricList)
 			new=Artist.objects.create(name=self.artist_name)

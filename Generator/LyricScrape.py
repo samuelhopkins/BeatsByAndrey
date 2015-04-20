@@ -14,7 +14,6 @@ hrefBase="http://genius.com"
 class pageThread(threading.Thread):
 	def __init__(self, threadID, URL, artist,lyricList):
 		super(pageThread,self).__init__()
-		print artist
 		self.artistString=artist
 		self.threadID=threadID
 		self.URL=URL
