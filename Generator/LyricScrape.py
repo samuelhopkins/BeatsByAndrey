@@ -7,16 +7,18 @@ import time
 from urlparse import urljoin
 
 listLock=threading.Lock()
-lyricList=[]
+#lyricList=[]
 hrefBase="http://genius.com"
 
 #Multithreaded web scraper thread function
 class pageThread(threading.Thread):
-	def __init__(self, threadID, URL, artist):
+	def __init__(self, threadID, URL, artist,lyricList):
 		super(pageThread,self).__init__()
+		print artist
 		self.artistString=artist
 		self.threadID=threadID
 		self.URL=URL
+		self.lyricList=lyricList
 
 	def run(self):
 		artistUrl=self.URL
@@ -31,7 +33,7 @@ class pageThread(threading.Thread):
 			if unicode(title[0].text.lower().strip()).encode('utf8') == unicode(self.artistString).encode('utf8'):
 				lyrics= soup.find('div', class_='lyrics').text.strip()
 				listLock.acquire()
-				lyricList.append(lyrics)
+				self.lyricList.append(lyrics)
 				listLock.release()
 			else:
 				continue
@@ -55,6 +57,7 @@ class LyricScraper():
 
 	def scrape(self):
 		self.threads=[]
+		self.LList=[]
 		tic=time.time()
 		response=requests.get(self.artist_URL, headers={'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_4) \
 			AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.153 Safari/537.36'})
@@ -70,7 +73,7 @@ class LyricScraper():
 		self.pages=numPages
 		for page in range(1,numPages):
 			URL=self.BASE_QUERY+str(page)+"&q="+self.artist
-			thread=pageThread(page,URL,self.artistString)
+			thread=pageThread(page,URL,self.artistString,self.LList)
 			thread.start()
 			self.threads.append(thread)
 		#Wait for all threads to finish collecting lyrics
@@ -83,7 +86,7 @@ class LyricScraper():
 			t.join()
 		toc=time.time()
 		print toc-tic,'s'
-		return lyricList
+		return self.LList
 
 
 

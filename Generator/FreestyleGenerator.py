@@ -33,7 +33,6 @@ class Generator():
 		self.songLyricList=lyrics_list
 		self.wordDict=defaultdict(set)
 		self.wordList=[]
-		print "init"
 			
 
 
