@@ -44,6 +44,16 @@ a:hover{
 	color:#d04640;
 }
 
+.populars{
+	color:#d04640;
+	list-style-type: none;
+}
+
+.populars:hover{
+	color:#d04640;
+	text-decoration: underline;
+}
+
 a:active{
 	text-decoration: none;
 	color:#d04640;

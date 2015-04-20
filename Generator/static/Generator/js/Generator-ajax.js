@@ -7,7 +7,7 @@ function get_List(){
 			$("#availableList li").remove();
 			$.each(names, function(index,value)
 			{
-				$("#availableList").append('<li>'+value+'</li>');
+				$("#availableList").append('<li class="populars">'+value+'</li>');
 			});
 			
 });
@@ -73,6 +73,11 @@ $('#back').click(function(){
 	});
 
 get_List()
+});
+
+$('#availableList').on('click','li.populars', function(){
+	var name=$(this).text();
+	$("#artist_name").val(name);
 });
 
 });
