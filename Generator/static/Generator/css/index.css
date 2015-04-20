@@ -96,7 +96,7 @@ p.info{
 #available{
 	text-align: center;
 	overflow-y:scroll;
-	height: 30%;
+	height: 30vh;
 }
 
 ul {
@@ -108,7 +108,7 @@ ul {
 	list-style-type: none;
 
 }
-#available h4{
+ h4{
 	margin: 0 auto;
 	color: #ABA8A8;
 	text-align: center;
