@@ -1,8 +1,25 @@
 
+function get_List(){
+	$.get("available/", { "artist_name" : "", "strength" : ""},
+		function(data){
+			var data=data.substring(1, data.length-1);
+			names=data.split(",")
+			$("#availableList li").remove();
+			$.each(names, function(index,value)
+			{
+				$("#availableList").append('<li>'+value+'</li>');
+			});
+			
+});
+};
+
+
 $(document).ready(function() {
 	$("#about").hide()
 	$('#loader').hide();
 	$('#content').hide();
+	get_List();
+	window.setInterval(function(){ get_List(); console.log("go");}, 10000);
 $('#form-button').click(function() {
 	var artist= $('#artist_name').val();
 	var strength= $('#strength').val();
@@ -22,7 +39,7 @@ $('#form-button').click(function() {
 				console.log(data)
 				$('#loading-block').html("You are the first person to request a song by " + lyrics +"."  
 					+ " Please be patient while we collect lyrical data. Once the data has been collected "
-					+ lyrics +" will appear in the popular artists list upon refreshing the page.")
+					+ lyrics +" will appear at the top of the popular artists list.")
 
 			}
 			else
@@ -55,7 +72,8 @@ $('#back').click(function(){
 		$('#info').fadeIn(400);
 	});
 
-
+get_List()
 });
 
 });
+

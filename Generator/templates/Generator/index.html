@@ -19,7 +19,7 @@
 </p>
 <div id="about">
 	<p> 
-		The beats by (An)drey Markov project is an exploration into the randomness of music and lyrics. The back end consists of a multi-threaded web scraper that collects data from Genius.com and utilizes a markov chain to generate lyrics inspired by your favorite artists.
+		The beats by (An)drey Markov project is an experiment on the randomness of lyrics. The back end consists of a multi-threaded web scraper that collects data from Genius.com and utilizes a markov chain to generate lyrics inspired by your favorite artists.
 	</p>
 </div>
 <section>
@@ -47,17 +47,14 @@
 </div>
 <div id="available">
 	<h4> Popular Artists </h4>
-<ul>
-	{% for name in available_list %}
-	<li> {{ name }}</li>
-	{% endfor %}
+<ul id="availableList">
 </ul>
 </div>
 </div>
 
 <div id="content">
 	<p class="info">
-		<a href="/"><button type="button" id="back" class="btn btn-danger">Try Again</button></a>
+		<a href="#"><button type="button" id="back" class="btn btn-danger">Try Again</button></a>
 	</p>
 	<p id="loading-block"></p>
 <div id="song">

@@ -27,4 +27,5 @@ class backgroundThread(threading.Thread):
 			# 	myfile.close()
 			new.save()
 		else:
+			print "too short"
 			return

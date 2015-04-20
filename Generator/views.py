@@ -25,13 +25,20 @@ def index(request):
 	for artist in objects:
 		available_list.append(artist.name)
 
-	return render_to_response('Generator/index.html',  {"available_list":available_list})
+	return render_to_response('Generator/index.html',  {})
+
+def available(request):
+	objects=Artist.objects.order_by('created').reverse()
+	available_list=[]
+	for artist in objects:
+		available_list.append(artist.name)
+
+	return HttpResponse(json.dumps(",".join(available_list),ensure_ascii=False).encode('utf8'))
 
 def undo(request):
 	artist_name=request.GET['artist_name'].lower()
 	print artist_name
 	model=Artist.objects.get(name=artist_name)
-	os.remove(model.lyrics_file.path)
 	model.delete()
 	return HttpResponse()
 
@@ -52,7 +59,7 @@ def generated(request):
 		except Artist.DoesNotExist:
 			create_thread(artist_name)
 			print "not exist"
-			return HttpResponse(json.dumps(artist_name_upper))
+			return HttpResponse(json.dumps(unicode(artist_name),ensure_ascii=False).encode('utf8'))
 		print model
 		lyrics_list=list(json.loads(model.lyric_list))
 		existing=Generator(lyrics_list)

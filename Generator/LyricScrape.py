@@ -28,7 +28,7 @@ class pageThread(threading.Thread):
 			response = requests.get(link)
 			soup = BeautifulSoup(response.text)
 			title=soup.select('.text_artist > a')
-			if str(title[0].text.lower().strip()) == self.artistString:
+			if unicode(title[0].text.lower().strip()).encode('utf8') == unicode(self.artistString).encode('utf8'):
 				lyrics= soup.find('div', class_='lyrics').text.strip()
 				listLock.acquire()
 				lyricList.append(lyrics)
@@ -41,19 +41,20 @@ class pageThread(threading.Thread):
 #to scrape the lyric data from all subsequent pages
 #Returns a list of all song lyrics to FreestyleGenerator.train()
 class LyricScraper():
-	artist=""
-	BASE_URL="http://genius.com/search?q="
-	BASE_QUERY="http://genius.com/search?page="
-	pages=0
-	threads=[]
 	def __init__(self,artist):
+		self.BASE_URL="http://genius.com/search?q="
+		self.BASE_QUERY="http://genius.com/search?page="
 		self.artistString=artist
 		artistList=artist.split()
 		self.artist=("-").join(artistList)
 		self.artist_URL=self.BASE_URL+"/"+self.artist+"/"
 		self.lyrics=self.scrape()
+		self.pages=0
+
+
 
 	def scrape(self):
+		self.threads=[]
 		tic=time.time()
 		response=requests.get(self.artist_URL, headers={'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_4) \
 			AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.153 Safari/537.36'})
