@@ -27,8 +27,20 @@
 <form  method="post" id="post-form">
 	<table>
 		<tr>
-	<td><label for="artist"><h5>Artist Name</h5></label></td>
-	<td><input id="artist_name" class="style-1" type="text" name="artist_name"></td>
+			<td><label for="artists_number"><h5>Number Of Artsists</h5></label></td>
+			<td><select id="artists_number" name="artists_number">
+				<option value="1">1</option>
+				<option value="2">2</option>
+				<option value="3">3</option>
+			</select>
+			</td>
+		</tr>
+	<td><label for="artist"><h5>Artist Name(s)</h5></label></td>
+	<td>
+	<ul id="names">
+	<li><input id="artist_name" class="style-1" type="text" name="artist_name"></li>
+	</ul>
+</td>
 </tr>
 <tr>
 	<td><label for="strength"> <h5>Randomness </h5></label></td>

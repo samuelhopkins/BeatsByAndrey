@@ -107,6 +107,15 @@ ul {
 	margin-top: 10px;
 }
 
+#names{
+	margin: 0px;
+
+}
+
+li {
+	list-style-type: none;
+}
+
 #available>ul>li {
 	color: #da4f49;
 	list-style-type: none;

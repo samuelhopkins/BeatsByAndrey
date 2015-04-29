@@ -50,18 +50,22 @@ def create_thread(name):
 def generated(request):
 		model=0
 		threads=[]
+		lyrics_list=[]
 		context=RequestContext(request)
 		strength=request.GET['strength']
-		artist_name_upper=request.GET['artist_name']
-		artist_name=artist_name_upper.lower()
-		try:
-			model=Artist.objects.get(name=artist_name)
-		except Artist.DoesNotExist:
-			create_thread(artist_name)
-			print "not exist"
-			return HttpResponse(json.dumps(unicode(artist_name),ensure_ascii=False).encode('utf8'))
-		print model
-		lyrics_list=list(json.loads(model.lyric_list))
+		artist_names=request.GET['artist_names']
+		artist_names=artist_names.split(',')
+		for name in artist_names:
+			artist_name=name.lower()
+			try:
+				model=Artist.objects.get(name=artist_name)
+			except Artist.DoesNotExist:
+				create_thread(artist_name)
+				print "not exist"
+				return HttpResponse(json.dumps(unicode(artist_name),ensure_ascii=False).encode('utf8'))
+			print model
+			lyrics_list+=list(json.loads(model.lyric_list))
+
 		existing=Generator(lyrics_list)
 		lyrics=existing.generate(250,int(strength))
 		splitstyle=noClosures(lyrics.split())
