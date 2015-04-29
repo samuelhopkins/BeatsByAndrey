@@ -36,10 +36,13 @@ def available(request):
 	return HttpResponse(json.dumps(",".join(available_list),ensure_ascii=False).encode('utf8'))
 
 def undo(request):
-	artist_name=request.GET['artist_name'].lower()
-	print artist_name
-	model=Artist.objects.get(name=artist_name)
-	model.delete()
+	artist_names=request.GET['artist_names']
+	artist_names=set(artist_names.split(','))
+	for name in artist_names:
+		print name
+		name=name.lower()
+		model=Artist.objects.get(name=name)
+		model.delete()
 	return HttpResponse()
 
 def create_thread(name):
@@ -54,7 +57,7 @@ def generated(request):
 		context=RequestContext(request)
 		strength=request.GET['strength']
 		artist_names=request.GET['artist_names']
-		artist_names=artist_names.split(',')
+		artist_names=set(artist_names.split(','))
 		for name in artist_names:
 			artist_name=name.lower()
 			try:
