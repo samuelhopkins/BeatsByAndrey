@@ -75,8 +75,9 @@ $('#about-click').click(function(){
 });
 
 $('#back').click(function(){
-	$('#info').show();
+	
 	$('#content').fadeOut(400,function(){
+		$('#info').fadeIn(400);
 		$('#info').fadeIn(400);
 	});
 

@@ -8,16 +8,9 @@ from Generator.models import Artist
 from Generator.FreestyleGenerator import Generator
 from BackGround import backgroundThread
 from django.core.files import File
+import re
 
 
-def noClosures(lyrics):
-	lyrics=lyrics
-	for word in lyrics:
-		if ('[' in word) or (']' in word):
-			lyrics.remove(word)
-		elif ('(' in word) or (')' in word):
-			lyrics.remove(word)
-	return lyrics
 
 def index(request):
 	objects=Artist.objects.order_by('created').reverse()
@@ -68,12 +61,8 @@ def generated(request):
 				return HttpResponse(json.dumps(unicode(artist_name),ensure_ascii=False).encode('utf8'))
 			print model
 			lyrics_list+=list(json.loads(model.lyric_list))
-
 		existing=Generator(lyrics_list)
 		lyrics=existing.generate(250,int(strength))
-		splitstyle=noClosures(lyrics.split())
-		lyrics=(" ").join(splitstyle)
-		lyrics.replace("\\","")
 		lyrics=json.dumps(unicode(lyrics),ensure_ascii=False).encode('utf8')
 		return HttpResponse(lyrics)
 

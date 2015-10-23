@@ -4,21 +4,7 @@ from LyricScrape import LyricScraper
 import random
 import threading
 from collections import defaultdict
-
-
-#Neccessary to get rid of strings deliniating verses and chorus i.e. [Verse x2]
-def noClosures(lyric):
-	lyrics=lyric
-	for string in lyrics:
-		if (('[' in string) or
-			 (']' in string) or
-			 ('(' in string) or
-			 (')' in string) or
-			(':' in string)  or 
-			('2' in string) ):
-			lyrics.remove(string)
-	return lyrics
-
+import re
 
 			
 class Scraper():
@@ -39,8 +25,8 @@ class Generator():
 
 	def train(self,strength):
 		for song in self.songLyricList:
-			songWordList=song.split()
-			songWordList=noClosures(songWordList)
+			song = re.sub(r'[^a-zA-Z\.,\' ]+', ' ', song)
+			songWordList = song.split()
 			length=len(songWordList)
 			for i in range(length-strength):
 				keyTup=()
@@ -75,7 +61,6 @@ class Generator():
 			freeStyle+=" "+unicode(next)
 			nextTup+=(next,)
 			seed=nextTup
-		
 		return freeStyle
 
 
